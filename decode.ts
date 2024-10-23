@@ -1,6 +1,6 @@
-import { startsWith } from "jsr:@std/bytes/starts-with";
-import { concat } from "jsr:@std/bytes/concat";
-import { crc32 } from "jsr:@takker/crc";
+import { startsWith } from "@std/bytes/starts-with";
+import { concat } from "@std/bytes/concat";
+import { crc32 } from "@takker/crc";
 
 export type PNGChunk =
   | IHDRChunk

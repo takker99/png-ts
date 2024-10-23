@@ -1,13 +1,13 @@
-import { assertEquals } from "jsr:@std/assert/equals";
-import { assertThrows } from "jsr:@std/assert/throws";
+import { assertEquals } from "@std/assert/equals";
+import { assertThrows } from "@std/assert/throws";
 import { decode, toHexColor } from "./decode.ts";
-import { toText } from "jsr:@std/streams/to-text";
-import { toArrayBuffer } from "jsr:@std/streams/to-array-buffer";
+import { toText } from "@std/streams/to-text";
+import { toArrayBuffer } from "@std/streams/to-array-buffer";
 import { data } from "./pngsuite-data.ts";
 import {
   Base64DecoderStream,
   Base64EncoderStream,
-} from "jsr:@std/encoding/unstable-base64-stream";
+} from "@std/encoding/unstable-base64-stream";
 
 Deno.test("decode", async (t) => {
   for (const [groupName, files] of Object.entries(data)) {
