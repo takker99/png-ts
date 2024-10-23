@@ -1,7 +1,8 @@
 {
   "name": "@takker/png",
   "exports": {
-    ".": "./mod.ts"
+    ".": "./mod.ts",
+    "./stream": "./stream.ts"
   },
   "tasks": {
     "fix": "deno fmt && deno lint --fix && deno doc --lint ./mod.ts && deno test --allow-read=./ --doc --parallel --shuffle && deno publish --dry-run --allow-dirty",
