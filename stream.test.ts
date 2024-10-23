@@ -10,6 +10,7 @@ import {
   Base64EncoderStream,
 } from "@std/encoding/unstable-base64-stream";
 import { toHexColor } from "./palette.ts";
+import { FixedChunkStream } from "@std/streams/unstable-fixed-chunk-stream";
 
 Deno.test("decode", async (t) => {
   for (const [groupName, files] of Object.entries(data)) {
@@ -19,6 +20,7 @@ Deno.test("decode", async (t) => {
           const chunkStream = ReadableStream.from([base64content])
             .pipeThrough(new Base64DecoderStream())
             .pipeThrough(new DecompressionStream("gzip"))
+            .pipeThrough(new FixedChunkStream(64))
             .pipeThrough(new PNGDecodeStream());
 
           const chunks = Reflect.get(expected, fileName);
