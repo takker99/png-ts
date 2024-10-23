@@ -1,6 +1,7 @@
 import { startsWith } from "@std/bytes/starts-with";
 import { concat } from "@std/bytes/concat";
 import { crc32 } from "@takker/crc";
+import type { Palette } from "./palette.ts";
 
 export type PNGChunk =
   | IHDRChunk
@@ -155,16 +156,6 @@ const parsePLTEChunk = (type: "PLTE", data: Uint8Array): PLTEChunk => {
   }
   return { type, palettes };
 };
-
-export interface Palette {
-  red: number;
-  green: number;
-  blue: number;
-}
-
-const hex = (n: number): string => n.toString(16).padStart(2, "0");
-export const toHexColor = (palette: Palette): `#${string}` =>
-  `#${hex(palette.red)}${hex(palette.green)}${hex(palette.blue)}`;
 
 export interface IDATChunk {
   type: "IDAT";
