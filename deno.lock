@@ -1,6 +1,7 @@
 {
   "version": "4",
   "specifiers": {
+    "jsr:@core/iterutil@0.9": "0.9.0",
     "jsr:@std/assert@^1.0.6": "1.0.6",
     "jsr:@std/bytes@^1.0.2": "1.0.2",
     "jsr:@std/encoding@^1.0.5": "1.0.5",
@@ -11,6 +12,9 @@
     "npm:preact@^10.24.3": "10.24.3"
   },
   "jsr": {
+    "@core/iterutil@0.9.0": {
+      "integrity": "29a4ba1af8e79c2d63d96df4948bb995afb5256568401711ae97a1ef06cc67a8"
+    },
     "@std/assert@1.0.6": {
       "integrity": "1904c05806a25d94fe791d6d883b685c9e2dcd60e4f9fc30f4fc5cf010c72207",
       "dependencies": [
@@ -49,6 +53,7 @@
   },
   "workspace": {
     "dependencies": [
+      "jsr:@core/iterutil@0.9",
       "jsr:@std/assert@^1.0.6",
       "jsr:@std/bytes@^1.0.2",
       "jsr:@std/encoding@^1.0.5",

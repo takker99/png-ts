@@ -1,35 +1,39 @@
 import { assertEquals } from "@std/assert/equals";
-import { assertThrows } from "@std/assert/throws";
-import { makeDecoder } from "./decoder.ts";
-import { toArrayBuffer } from "@std/streams/to-array-buffer";
+import { assertRejects } from "@std/assert/rejects";
+import { decode } from "./iterator_async.ts";
 import { data } from "./pngsuite-data.ts";
 import { expected } from "./pngsuite-data-expected.ts";
 import { Base64DecoderStream } from "@std/encoding/unstable-base64-stream";
+import { FixedChunkStream } from "@std/streams/unstable-fixed-chunk-stream";
 import { toTestPrintFormat } from "./debug.ts";
+import { map } from "@core/iterutil/async/map";
 
 Deno.test("decode", async (t) => {
   for (const [groupName, files] of Object.entries(data)) {
     await t.step(groupName, async (t) => {
       for (const [fileName, base64content] of Object.entries(files)) {
         await t.step(fileName, async () => {
-          const push = makeDecoder();
-          const data = new Uint8Array(
-            await toArrayBuffer(
+          const chunkIter = map(
+            decode(
               ReadableStream.from([base64content])
                 .pipeThrough(new Base64DecoderStream())
-                .pipeThrough(new DecompressionStream("gzip")),
+                .pipeThrough(new DecompressionStream("gzip"))
+                .pipeThrough(new FixedChunkStream(64)),
             ),
+            toTestPrintFormat,
           );
 
           const chunks = Reflect.get(expected, fileName);
           if (groupName === "Corrupted files") {
-            assertThrows(() => push(data, true), Error, chunks, chunks);
+            assertRejects(
+              () => Array.fromAsync(chunkIter),
+              Error,
+              chunks,
+              chunks,
+            );
             return;
           }
-          const parsed = await Promise.all(
-            push(data, true).map(toTestPrintFormat),
-          );
-          assertEquals(parsed as unknown[], chunks);
+          assertEquals(await Array.fromAsync(chunkIter) as unknown[], chunks);
         });
       }
     });

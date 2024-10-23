@@ -1,1 +1,1 @@
-export * from "./decode.ts";
+export * from "./decoder.ts";

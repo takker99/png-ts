@@ -634,7 +634,7 @@ const combine = <
     } as CombineResult<ParserEntries>,
   ) as CombineResult<ParserEntries>;
 
-export const decode = (): (
+export const makeDecoder = (): (
   chunk: Uint8Array,
   final?: boolean,
 ) => PNGChunk[] => {
